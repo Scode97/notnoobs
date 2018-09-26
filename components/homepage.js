@@ -18,11 +18,35 @@ import dataStore from "../stores/dataStore.js";
 import { observer } from "mobx-react";
 
 class HomePage extends React.Component {
-  componentDidMount() {
-    dataStore.getQuestion();
-    console.log(dataStore.question);
+  constructor(props) {
+    super(props);
+    this.answers = [];
   }
+  componentDidMount() {
+    dataStore.getQuestion(1);
+    dataStore.getPlace(1);
+  }
+
   render() {
+    answers = [];
+    let n = dataStore.answer.map(a => {
+      answers.push(a.answer);
+      console.log(a.quest);
+      return (
+        <CardItem cardBody style={{ flex: 1, marginBottom: 10 }} key={a.id}>
+          <Button
+            style={{ justifyContent: "center", alignItems: "center" }}
+            onPress={() => dataStore.getQuestion(a.quest)}
+          >
+            <Text>{a.answer}</Text>
+          </Button>
+        </CardItem>
+      );
+    });
+    console.log("hey");
+    console.log(dataStore.places);
+    console.log("hey");
+
     return (
       <Container>
         <Header>
@@ -48,29 +72,14 @@ class HomePage extends React.Component {
                     marginLeft: 50
                   }}
                 >
-                  {dataStore.getQuestion}
+                  {dataStore.question.question}
                 </Text>
               </Body>
             </CardItem>
-            <CardItem cardBody style={{ flex: 1, marginBottom: 10 }}>
-              <Button
-                disabled
-                style={{ justifyContent: "center", alignItems: "center" }}
-              >
-                <Text>Physical activities</Text>
-              </Button>
-            </CardItem>
-            <CardItem cardBody style={{ flex: 1, marginBottom: 10 }}>
-              <Button disabled style={{ justifyContent: "center" }}>
-                <Text>Educational lectures</Text>
-              </Button>
-            </CardItem>
-            <CardItem cardBody style={{ flex: 1, marginBottom: 10 }}>
-              <Button disabled style={{ justifyContent: "center" }}>
-                <Text>Mental health</Text>
-              </Button>
-            </CardItem>
+
+            {n}
           </Card>
+          <Text>{dataStore.places.name}</Text>
         </Content>
       </Container>
     );
