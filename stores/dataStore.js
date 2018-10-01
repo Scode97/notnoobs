@@ -13,12 +13,16 @@ class dataStore {
     // this.id = 1;
     this.answer = [];
     this.places = [];
+    this.events = [];
     this.getQuestion();
     // this.getAnswer();
     this.getPlace();
+    this.getEvent();
+    this.getAllEvents();
+    this.getAllPlaces();
   }
 
-  getQuestion = id => {
+  getQuestion(id) {
     instance
       .get(`/question/${id}`)
       .then(response => response.data)
@@ -32,7 +36,7 @@ class dataStore {
         console.log(error);
         console.log("getting question");
       });
-  };
+  }
 
   getAnswer(id) {
     instance
@@ -57,6 +61,45 @@ class dataStore {
       .catch(error => {
         console.log(error);
         console.log("getting places");
+      });
+  }
+
+  getEvent(id) {
+    instance
+      .get(`/filterEvents/${id}`)
+      .then(response => response.data)
+      .then(events => {
+        this.events = events;
+      })
+      .catch(error => {
+        console.log(error);
+        console.log("getting events");
+      });
+  }
+
+  getAllPlaces() {
+    instance
+      .get("/places/")
+      .then(response => response.data)
+      .then(places => {
+        this.places = places;
+      })
+      .catch(error => {
+        console.log(error);
+        console.log("getting places");
+      });
+  }
+
+  getAllEvents() {
+    instance
+      .get("/event/")
+      .then(response => response.data)
+      .then(events => {
+        this.events = events;
+      })
+      .catch(error => {
+        console.log(error);
+        console.log("getting events");
       });
   }
 }
